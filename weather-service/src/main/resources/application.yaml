@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: weather-service
+  cloud:
+    config:
+      enabled: false
+server:
+  port: 8080

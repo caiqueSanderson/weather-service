@@ -1,0 +1,9 @@
+spring:
+  application:
+  name: alert-service
+  cloud:
+    config:
+      enabled: false
+
+server:
+  port: 8081

@@ -1,6 +1,9 @@
 package com.infnet.alert_service.controller;
 
+import com.infnet.alert_service.client.AlertStoreClient;
 import com.infnet.alert_service.client.WeatherClient;
+import com.infnet.alert_service.dto.AlertDTO;
+import com.infnet.alert_service.service.AlertService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,20 +11,16 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/alertas")
+@RequestMapping("/alerts")
 public class AlertController {
-    private final WeatherClient weatherClient;
+    private final AlertService service;
 
-    public AlertController(WeatherClient weatherClient) {
-        this.weatherClient = weatherClient;
+    public AlertController(AlertService service) {
+        this.service = service;
     }
 
     @GetMapping
-    public List<String> getAlertas() {
-        var temperaturas = weatherClient.getTemperaturas();
-        return temperaturas.stream()
-                .filter(t -> (int) t.get("temperatura") > 28)
-                .map(t -> "Alerta de calor em " + t.get("cidade"))
-                .toList();
+    public List<String> getAlerts() {
+        return service.processAlerts();
     }
 }
